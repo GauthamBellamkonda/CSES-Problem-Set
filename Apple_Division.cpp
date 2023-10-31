@@ -48,35 +48,27 @@ ll modpow(ll a, ll b, ll m){
 
 void solve()
 {
-    string s; cin>>s;
-    sort(s.begin(), s.end());
-    vector<string> ans;
-    do{
-        ans.push_back(s);
-    }while(next_permutation(s.begin(), s.end()));
-    cout<<ans.size()<<endl;
-    for(auto x: ans) cout<<x<<endl;
-    // alternate solution
-    // int n = s.size();
-    // vector<string> ans;
-    // vector<int> cnt(26, 0);
-    // for(auto x: s) cnt[x-'a']++;
-    // function<void(string, int)> recurse = [&](string t, int i){
-    //     if(i==n){
-    //         ans.push_back(t);
-    //         return;
-    //     }
-    //     for(int j=0; j<26; j++){
-    //         if(cnt[j]){
-    //             cnt[j]--;
-    //             recurse(t+(char)(j+'a'), i+1);
-    //             cnt[j]++;
-    //         }
-    //     }
-    // };
-    // recurse("", 0);
-    // cout<<ans.size()<<endl;
-    // for(auto x: ans) cout<<x<<endl;
+	int n;
+	cin >> n;
+	vector<int> a(n, 0);
+	for(auto& e : a)
+		cin >> e;
+    vector<ull> ans;
+    ull sum = 0;
+    ans.push_back(0);
+    for(int i = 0; i<n; i++){
+        int m = 1<<i;
+        vector<ull> temp = ans;
+        for(int j = 0; j<m; j++){
+            temp.push_back(ans[j] + a[i]);
+        }
+        ans = temp;
+        sum += a[i];
+    }
+    sort(ans.begin(), ans.end());
+    auto itr = lower_bound(ans.begin(), ans.end(), (sum+1)/2);
+    ull ans1 = ans[itr-ans.begin()];
+    cout << 2*ans1 - sum;
 }
 
 int main()
